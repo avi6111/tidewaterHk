@@ -1,3 +1,7 @@
+# 更新Reame会更么
+
+改中文
+
 # Tidewater
 
 An island fishing game for the browser. Cast from the pier, the beach or your own boat, fight the fish,
@@ -22,6 +26,7 @@ breach. It runs directly on WebGPU and WGSL with its own small rendering engine,
 ## Features
 
 **Fishing**
+
 - A spinning rod and reel that cast, reel and bend under load, with the bail, rotor and crank animated.
 - Bites that depend on the water (shallows, pier, reef, bay, deep water), depth and time of day, across
   18 Caribbean species.
@@ -33,6 +38,7 @@ breach. It runs directly on WebGPU and WGSL with its own small rendering engine,
 - A first-play guide, contextual tips and a minimap. Progress is saved in the browser.
 
 **Ocean**
+
 - Four-cascade FFT ocean (Tessendorf spectra) with foam, whitecaps, wind streaks and swell.
 - Depth-aware breaking waves with peeling shoulders, whitewater, spray and foam lace.
 - A shallow-water simulation for swash running up and down the sand.
@@ -42,12 +48,14 @@ breach. It runs directly on WebGPU and WGSL with its own small rendering engine,
 - Refraction of the seabed through the surface, including behind the pier and boats.
 
 **Sky**
+
 - Physically based atmosphere (Hillaire 2020) with a sun, moon and stars.
 - Volumetric cumulus and wispy cirrus with cloud shadows on the land.
 - Aerial perspective and sea haze.
 - God rays, and a lens flare with occlusion.
 
 **World**
+
 - An island with a beach, hills, headlands and rocks.
 - A fishing village, a pier, and the vendors' stalls built from Poly Haven scans.
 - Realistic vendor characters (Microsoft Rocketbox) with skinned animation.
@@ -59,6 +67,7 @@ breach. It runs directly on WebGPU and WGSL with its own small rendering engine,
 - A humpback whale with an escort of fish, blows, fluke dives and breaches.
 
 **Lighting and post**
+
 - Cascaded shadows with contact-hardening penumbrae, and screen-space contact shadows.
 - Ground bounce light.
 - GTAO ambient occlusion.
@@ -67,32 +76,33 @@ breach. It runs directly on WebGPU and WGSL with its own small rendering engine,
 - Night lighting from lanterns, windows and the boat, plus a flashlight that also works underwater.
 
 **Audio**
+
 - Positional audio from real CC0 field recordings: surf timed to each breaking wave, wind, birds, the boat
   engine, footsteps by surface, underwater ambience, whale song, and the rod and reel (casts, the bail,
   reeling, the drag, line snaps, splashes).
 
 ## Controls
 
-| Key | Action |
-|---|---|
-| W A S D | Move |
-| Mouse | Look (click to capture the mouse, Esc to release) |
-| Shift | Sprint / boat boost |
-| Space | Jump / swim up |
-| C | Crouch / dive |
-| E | Interact: board the boat, take or leave the helm, step ashore, trade with the fish buyer or the chandlery |
-| V | Boat camera at the helm (1st / 3rd person) |
-| R | Take out / put away the fishing rod |
-| Left mouse | Hold to wind up, release to cast · strike when a fish takes the bait · hold to reel |
-| Right mouse | Reel an empty line in |
-| I or Tab | Cooler / fish hold and the fish log |
-| F | Free camera |
-| L | Flashlight |
-| T | Pause time |
-| M | Mute |
-| H | Settings panel |
-| P | Photo mode |
-| F1 or ? | All controls |
+| Key         | Action                                                                                                    |
+| ----------- | --------------------------------------------------------------------------------------------------------- |
+| W A S D     | Move                                                                                                      |
+| Mouse       | Look (click to capture the mouse, Esc to release)                                                         |
+| Shift       | Sprint / boat boost                                                                                       |
+| Space       | Jump / swim up                                                                                            |
+| C           | Crouch / dive                                                                                             |
+| E           | Interact: board the boat, take or leave the helm, step ashore, trade with the fish buyer or the chandlery |
+| V           | Boat camera at the helm (1st / 3rd person)                                                                |
+| R           | Take out / put away the fishing rod                                                                       |
+| Left mouse  | Hold to wind up, release to cast · strike when a fish takes the bait · hold to reel                     |
+| Right mouse | Reel an empty line in                                                                                     |
+| I or Tab    | Cooler / fish hold and the fish log                                                                       |
+| F           | Free camera                                                                                               |
+| L           | Flashlight                                                                                                |
+| T           | Pause time                                                                                                |
+| M           | Mute                                                                                                      |
+| H           | Settings panel                                                                                            |
+| P           | Photo mode                                                                                                |
+| F1 or ?     | All controls                                                                                              |
 
 ### Fishing
 
@@ -111,15 +121,15 @@ more.
 
 Add these to the URL, for example `?fly&noAudio`:
 
-| Option | Effect |
-|---|---|
-| `fly` | Start in the free camera |
-| `noAudio` | Disable sound |
-| `noClouds` | Skip the volumetric clouds |
-| `noHaze` | Skip the haze and sun shafts |
-| `noCaustics` | Skip caustics |
-| `noVeg` | Skip vegetation |
-| `noSim` | Skip the swash (shallow-water) simulation |
+| Option         | Effect                                    |
+| -------------- | ----------------------------------------- |
+| `fly`        | Start in the free camera                  |
+| `noAudio`    | Disable sound                             |
+| `noClouds`   | Skip the volumetric clouds                |
+| `noHaze`     | Skip the haze and sun shafts              |
+| `noCaustics` | Skip caustics                             |
+| `noVeg`      | Skip vegetation                           |
+| `noSim`      | Skip the swash (shallow-water) simulation |
 
 ## Running locally
 
@@ -133,20 +143,20 @@ Every push to `main` deploys to GitHub Pages through `.github/workflows/deploy.y
 
 ## Project layout
 
-| Folder | Contents |
-|---|---|
-| `src/game/` | The fishing game: rod, bites, the fight, catch card, cooler and log, vendors and stalls, guide, minimap, HUD |
-| `src/engine/` | The rendering engine: math, scene graph and geometry, GPU resources, WGSL shader composition, materials, lighting and shadows |
-| `src/ocean/` | FFT ocean, water surface and material, shore waves, breakers, swash, wake, caustics, underwater lighting |
-| `src/sky/` | Atmosphere, clouds, sky and environment |
-| `src/world/` | Terrain, village, pier, reef, fish, vegetation, rocks, debris, wildlife, whale, boat |
-| `src/post/` | Post chain: AO, underwater composite, haze, TAAU, motion blur, bloom, lens flare, droplets |
-| `src/materials/` | Shared lighting: shadow filtering, bounce light, contact shadows, local lights, LOD fades |
-| `src/player/` | Walking, swimming, the boat and the free camera |
-| `src/audio/` | The sample-based soundscape |
-| `src/ui/` | Settings panel, loading screen and HUD |
-| `tools/` | Scripts that fetch and convert the characters, stall props and fishing sounds |
-| `test/` | Headless engine smoke test and game-logic tests (`npm test`), and HUD / loader dev pages |
+| Folder             | Contents                                                                                                                      |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `src/game/`      | The fishing game: rod, bites, the fight, catch card, cooler and log, vendors and stalls, guide, minimap, HUD                  |
+| `src/engine/`    | The rendering engine: math, scene graph and geometry, GPU resources, WGSL shader composition, materials, lighting and shadows |
+| `src/ocean/`     | FFT ocean, water surface and material, shore waves, breakers, swash, wake, caustics, underwater lighting                      |
+| `src/sky/`       | Atmosphere, clouds, sky and environment                                                                                       |
+| `src/world/`     | Terrain, village, pier, reef, fish, vegetation, rocks, debris, wildlife, whale, boat                                          |
+| `src/post/`      | Post chain: AO, underwater composite, haze, TAAU, motion blur, bloom, lens flare, droplets                                    |
+| `src/materials/` | Shared lighting: shadow filtering, bounce light, contact shadows, local lights, LOD fades                                     |
+| `src/player/`    | Walking, swimming, the boat and the free camera                                                                               |
+| `src/audio/`     | The sample-based soundscape                                                                                                   |
+| `src/ui/`        | Settings panel, loading screen and HUD                                                                                        |
+| `tools/`         | Scripts that fetch and convert the characters, stall props and fishing sounds                                                 |
+| `test/`          | Headless engine smoke test and game-logic tests (`npm test`), and HUD / loader dev pages                                    |
 
 ## Credits and license
 
