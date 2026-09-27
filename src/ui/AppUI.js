@@ -2,7 +2,7 @@ import * as THREE from '../engine/index.js';
 import { UI } from './UI.js';
 import { G } from '../core/Globals.js';
 import { GroundBounce } from '../materials/GroundBounce.js';
-
+const RELEASE_MODE = import.meta.env.MODE === 'release';
 // Binds the Tidewater UI (panel + HUD) to the running app.
 const SEA = {
 	Calm: { wind: 3.5, fetch: 40, chop: 0.75, swell: 0.28, surf: 0.18, period: 11, whitecaps: 0.2 },
@@ -84,7 +84,9 @@ export class AppUI {
 			G.waterScattering.value.set( 0.012, 0.018, 0.024 ).multiplyScalar( k * k );
 
 		};
-
+		if(RELEASE_MODE==false)
+		{
+		//region 各种设置项
 		// ---------------------------------------------------------------- Ocean
 		const ocean = ui.addTab( 'ocean', 'Ocean', 'ocean' );
 		const sea = ocean.addFolder( 'Sea state', { icon: 'wind' } );
@@ -183,7 +185,8 @@ export class AppUI {
 		}
 
 		atmo.addSlider( { label: 'Exposure', object: s, key: 'exposure', min: - 3, max: 3, step: 0.1, unit: 'EV', onChange: ( v ) => { app.settings.exposure = 0.55 * Math.pow( 2, v ); } } );
-
+		}
+		//region 设置Camera
 		// ---------------------------------------------------------------- Camera
 		const cam = ui.addTab( 'camera', 'Camera', 'camera' );
 		const view = cam.addFolder( 'View', { icon: 'camera' } );
@@ -195,7 +198,8 @@ export class AppUI {
 
 		} } );
 		view.addButton( { label: 'Free camera (F)', icon: 'camera', onClick: () => app.setFreeCam( ! app.freeCam ) } );
-
+		if(RELEASE_MODE==false)
+		{
 		// ---------------------------------------------------------------- Effects
 		const fx = ui.addTab( 'effects', 'Effects', 'effects' );
 		const post = fx.addFolder( 'Post-processing', { icon: 'sparkles' } );
@@ -219,7 +223,7 @@ export class AppUI {
 		post.addSlider( { label: 'Contrast', object: s, key: 'contrast', min: 0.8, max: 1.3, step: 0.01, onChange: ( v ) => { P.contrast.value = v; } } );
 		post.addSlider( { label: 'Vignette', object: s, key: 'vignette', min: 0, max: 1, step: 0.01, onChange: ( v ) => { P.vignette.value = v; } } );
 		post.addSlider( { label: 'Film grain', object: s, key: 'grain', min: 0, max: 0.06, step: 0.001, onChange: ( v ) => { P.grain.value = v; } } );
-
+		}
 		// ---------------------------------------------------------------- Performance
 		const perf = ui.addTab( 'performance', 'Performance', 'performance' );
 		const live = perf.addFolder( 'Live', { icon: 'gauge' } );
