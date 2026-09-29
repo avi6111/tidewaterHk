@@ -50,7 +50,7 @@ export class CatchDisplay {
 		this.t = 0;
 
 	}
-
+	//region I键，弹出的Panel ???
 	// hang `species` from `mouth` (world point: the end of the line), facing the camera
 	show( species, kg, mouth, faceYaw, dt ) {
 

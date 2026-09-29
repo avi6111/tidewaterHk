@@ -1,6 +1,6 @@
 import { STAND } from './FishStand.js';
 import { CHANDLERY } from './Chandlery.js';
-
+import {t} from '../i18n/i18n.js';
 // First-play guide:
 //  - an intro (3 cards) the first time the game starts, after the start overlay: the goal, the fishing
 //    controls, getting around and where Joe and Marta are (live direction and distance; their
@@ -88,13 +88,13 @@ const CARDS = [
 		eyebrow: 'Getting around',
 		title: 'Joe and Marta',
 		body: `<div class="gm-guide-list">
-			${ row( k( 'W', 'A', 'S', 'D' ), 'Move, mouse to look, <kbd>Shift</kbd> to run' ) }
-			${ row( k( 'E' ), 'Board the boat, take the helm, talk to Joe and Marta' ) }
-			${ row( k( 'F1' ), 'All controls, and this guide again' ) }
+			${ row( k( 'W', 'A', 'S', 'D' ), t('GuideMove_MouseLook' )) }
+			${ row( k( 'E' ), t('GuideBoard_the_boat' )) }
+			${ row( k( 'F1' ), t( 'GuideAll_controls_again' ) ) }
 		</div>
 		<div class="gm-guide-where">
-			<div class="is-joe"><i></i><span><b>Joe</b> · fish stand by the pier</span><em data-where="joe"></em></div>
-			<div class="is-marta"><i></i><span><b>Marta</b> · chandlery by the boathouse</span><em data-where="marta"></em></div>
+			<div class="is-joe"><i></i><span><b>Joe</b> · <div data-i18n="FishStandByPier">fish stand by the pier</div></span><em data-where="joe"></em></div>
+			<div class="is-marta"><i></i><span><b>Marta</b> · <div data-i18n="ChandleryByBoathouse">chandlery by the boathouse</div></span><em data-where="marta"></em></div>
 		</div>
 		<p style="margin:0;color:var(--tw-ink-3);font-size:var(--tw-fs-sm)">Both are marked on the map in the lower right.</p>`,
 	},

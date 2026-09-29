@@ -65,6 +65,7 @@ import { WakeSim } from './ocean/WakeSim.js';
 import { Vegetation } from './world/Vegetation.js';
 import { SoundScape } from './audio/SoundScape.js';
 import { updateCameraVelocity, useStaticVelocity } from './post/CameraVelocity.js';
+import {i18nlanguage, t} from './i18n/i18n.js';
 
 const _up = new Vector3( 0, 1, 0 );
 
@@ -75,9 +76,11 @@ export class App {
 		this.settings = {
 			timeOfDay: 16.2,
 			sunAzimuth: 0, // degrees: turns the sun's daily path about the vertical
-			timeSpeed: 0, // hours per real second
+			//timeSpeed: 0, // hours per real second 若想用户缓存localStorage 不传这参数会有 BUG（无提示bug)
+			timeSpeed: localStorage.getItem('tidewater.timespeed') || 0.072,
 			exposure: 0.55,
 			renderScale: 1, // internal resolution (the temporal upscaler reconstructs the output), Performance tab
+			language: i18nlanguage()
 		};
 		this.qs = new URLSearchParams( location.search );
 
@@ -88,12 +91,18 @@ export class App {
 		const qs = this.qs;
 		// report a stage, then let the page paint it before the (synchronous) stage work starts
 		const progress = async ( p, text, until ) => {
-
+			const sp = (str)=>{
+				if (!str) return "";
+				// 连续空白转为单个下划线
+				return str.replace(/\s+/g, "_");
+			}
+			text = t(sp(text));
+			text += '…';
 			onProgress( p, text, until );
 			if ( typeof requestAnimationFrame === 'function' ) await new Promise( ( r ) => requestAnimationFrame( () => setTimeout( r, 0 ) ) );
 
 		};
-		await progress( 0.02, 'Starting WebGPU…' );
+		await progress( 0.02, 'Starting WebGPU' );
 		const engine = this.engine = new Engine( document.getElementById( 'app' ) );
 		await engine.init();
 		// systems take `renderer` first as in the three.js version: it is the Engine now (GPU access is global)
@@ -111,7 +120,7 @@ export class App {
 		this.fly.setPose( new Vector3( 20, 6, - 20 ), Math.PI * 0.9, - 0.12 );
 
 		// ---------------------------------------------------------------- sky
-		await progress( 0.04, 'Building the atmosphere…' );
+		await progress( 0.04, 'Building the atmosphere' );
 		this.atmosphere = new Atmosphere( renderer );
 		this.sky = new Sky( this.atmosphere );
 		if ( ! qs.has( 'noClouds' ) ) {
@@ -133,22 +142,22 @@ export class App {
 		this.environment = new Environment( renderer, scene, this.sky );
 
 		// ---------------------------------------------------------------- island
-		await progress( 0.06, 'Shaping the island…' );
+		await progress( 0.06, 'Shaping the island' );
 		this.terrainData = new TerrainData();
 		this.colliders = new Colliders();
 		// the village flattens building pads into the heightmap: build it before any terrain
 		// data is derived (shore field, GPU textures, meshes)
-		await progress( 0.12, 'Building the village…' );
+		await progress( 0.12, 'Building the village' );
 		this.village = new Village( { scene, terrain: this.terrainData, colliders: this.colliders } );
 		if ( ! qs.has( 'noVeg' ) ) {
 
-			await progress( 0.14, 'Planting the island…' );
+			await progress( 0.14, 'Planting the island' );
 			this.vegetation = new Vegetation( { scene, terrain: this.terrainData, village: this.village } );
 			useStaticVelocity( this.vegetation.group );
 
 		}
 
-		await progress( 0.19, 'Rolling in the swell…' );
+		await progress( 0.19, 'Rolling in the swell' );
 		this.shoreField = computeShoreField( this.terrainData, { res: 512, swellDir: [ WORLD.swellDir.x, WORLD.swellDir.y ] } );
 		this.terrainGPU = new TerrainGPU( this.terrainData, this.shoreField );
 		// terrain and rocks apply the heightfield sun shadow (long hill shadows) in their own lighting
@@ -160,7 +169,7 @@ export class App {
 		this.terrain.mesh.material.appliesHillShadow = true;
 		this.rocks.material.appliesHillShadow = true;
 
-		await progress( 0.23, 'Growing the reef…' );
+		await progress( 0.23, 'Growing the reef' );
 		this.reef = new Reef( { scene, terrain: this.terrainData, shoreField: this.shoreField } );
 
 		this.boat = new BoatModel();
@@ -169,7 +178,7 @@ export class App {
 		this.boat.group.rotation.y = WORLD.boatDock.heading;
 
 		// ---------------------------------------------------------------- ocean
-		await progress( 0.3, 'Simulating the ocean…' );
+		await progress( 0.3, 'Simulating the ocean' );
 		this.fft = new OceanFFT( renderer );
 		if ( this.reef.setOcean ) this.reef.setOcean( this.fft ); // coral / sea fan sway follows the simulated swell
 		this.foamTexture = createFoamTexture( renderer );
@@ -317,7 +326,7 @@ fn terrainWetness( xz: vec2f, h: f32 ) -> vec2f {
 		this.freeCam = qs.has( 'fly' );
 
 		// ---------------------------------------------------------------- post
-		await progress( 0.34, 'Preparing the shaders…' );
+		await progress( 0.34, 'Preparing the shaders' );
 		this.underwater = new Underwater( {
 			depthTexture: this.sceneRenderer.sceneRT.depthTexture, maskTexture: this.sceneRenderer.waterMaskTexture,
 			query: this.query, caustics: this.caustics, fft: this.fft,
@@ -373,9 +382,9 @@ fn terrainWetness( xz: vec2f, h: f32 ) -> vec2f {
 		// ---- compile pipelines asynchronously (keeps the page responsive), then prime a few
 		// frames behind the loading screen so any remaining first-use stalls happen there
 		// stage weights: in the browser the pipeline compile below takes far longer than everything before it
-		await progress( 0.36, 'Compiling shaders…', 0.95 );
+		await progress( 0.36, 'Compiling shaders', 0.95 );
 		await this.precompile();
-		await progress( 0.96, 'Warming up…' );
+		await progress( 0.96, 'Warming up' );
 		for ( let i = 0; i < 2; i ++ ) {
 
 			this.frame( 1 / 60 );

@@ -1,15 +1,45 @@
 {
   "name": "tidewater",
   "version": "1.0.0",
+  "main": "elemain.js",
+  "description": "Tidewater island fishing game",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5189",
     "build": "vite build --mode release",
+    "develop": "vite --host 127.0.0.1 --port 5189 --mode release",
     "preview": "vite preview",
-    "test": "node test/game-logic.mjs && node test/engine-smoke.mjs"
+    "test": "node test/game-logic.mjs && node test/engine-smoke.mjs",
+    "electron:dev": "electron .",
+    "build:web": "vite build --mode release",
+    "build:app": "npm run build:web && electron-builder"
   },
   "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
     "vite": "^8.3.0",
     "webgpu": "^0.6.1"
+  },
+  "author": "Stone.studio",
+  "build": {
+    "appId": "com.stone.tidewater",
+    "productName": "Tidewater",
+    
+    "directories": {
+      "output": "dist_electron"
+    },
+    "files": [
+      "elemain.js",
+      "dist/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   },
   "license": "MIT",
   "private": true,

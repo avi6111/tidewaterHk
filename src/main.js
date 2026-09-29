@@ -2,6 +2,9 @@ import './core/BenchSeed.js';
 import { App } from './App.js';
 import { UI } from './ui/UI.js';
 import { AppUI } from './ui/AppUI.js';
+import { observeTranslations } from './i18n/i18n.js';
+
+observeTranslations();
 
 // ?bench runs in background tabs too (automation): rAF does not fire in a hidden page
 if ( /[?&]bench\b/.test( location.search ) ) {
@@ -12,13 +15,15 @@ if ( /[?&]bench\b/.test( location.search ) ) {
 
 }
 
-const ui = new UI();
+let ui = new UI();
+//const ui = null;//需要先调用  createAppUI()
 const app = new App();
 window.__ui = ui;
 
 app.init( ( p, text, until ) => ui.setLoading( p, text, until ) ).then( async () => {
 
-	app.ui = new AppUI( app, ui );
+	// app.ui = new AppUI( app, ui );
+	createAppUI(ui);
 	ui.setLoading( 1, 'Ready' );
 	await ui.hideLoader();
 	// frame-time benchmark and reference shots (see core/Bench.js): it drives the frames itself
@@ -32,12 +37,8 @@ app.init( ( p, text, until ) => ui.setLoading( p, text, until ) ).then( async ()
 		if ( app.qs.has( 'shots' ) ) window.__job = window.__bench.shots( app.qs.get( 'shots' ).split( ',' ), { tag: app.qs.get( 'tag' ) || 'shot', dt: Number( app.qs.get( 'dt' ) ) || 0, seq: Number( app.qs.get( 'seq' ) ) || 1, every: Number( app.qs.get( 'every' ) ) || 1 } );
 
 	} else app.start();
-	ui.showStartOverlay( () => {
-
-		app.input.requestLock();
-		if ( app.audio ) app.audio.resume();
-
-	} );
+	
+	initAppUIEvent(ui);
 
 } ).catch( ( e ) => {
 
@@ -45,3 +46,23 @@ app.init( ( p, text, until ) => ui.setLoading( p, text, until ) ).then( async ()
 	ui.setLoadingError( 'Something went wrong: ' + e.message );
 
 } );
+const initAppUIEvent = (ui) => {
+	ui.showStartOverlay( () => {
+
+		app.input.requestLock();
+		if ( app.audio ) app.audio.resume();
+
+	} );
+};
+const createAppUI = (currUI) => {
+	if(!currUI){
+		if(ui!=null) ui.dispose();
+		ui = new UI();
+		initAppUIEvent(ui);
+		ui.togglePanel(true); 
+	}
+
+    app.ui = new AppUI( app, ui, {
+        recreate: createAppUI,
+    } );
+};

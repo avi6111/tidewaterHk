@@ -182,7 +182,7 @@ export const GPU = {
 
 	// the pipeline now (synchronous compile when the async one has not finished)
 	ready( h ) {
-		console.log('ready',h);//也是会一直有ready
+		//console.log('ready',h);//也是会一直有ready
 		if ( h.pipeline || h.failed ) return h.pipeline;
 		this.syncCompiles.push( h.label );
 		h.pipeline = h.kind === 'render' ? this.device.createRenderPipeline( h.desc ) : this.device.createComputePipeline( h.desc );

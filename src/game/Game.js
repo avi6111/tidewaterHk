@@ -12,7 +12,7 @@ import { UPGRADES, fuelBurn } from './Gear.js';
 import { GameHUD } from './GameHUD.js';
 import { Minimap } from './Minimap.js';
 import { Guide } from './Guide.js';
-
+import { t } from '../i18n/i18n.js';
 // how long the catch card stays up unless dismissed (ms)
 const CATCH_CARD_MS = 9000;
 
@@ -153,13 +153,13 @@ export class Game {
 			ui.onReplayGuide = () => this.guide.replay();
 
 		}
-
+		//region input by 按键
 		const can = this.canFish;
 		if ( inp.hit( 'KeyR' ) && can && ! this.fight ) {
 
 			rod.equip( ! rod.equipped );
 			if ( ! rod.equipped ) this.cancelLine();
-			this.toast( rod.equipped ? 'Rod out · hold left mouse to cast' : 'Rod away', 1600 );
+			this.toast( rod.equipped ? t('Rod_out') + ' · ' + t('Hold_to_wind_up') : t('Rod_away'), 1600 );
 
 		}
 
@@ -290,24 +290,24 @@ export class Game {
 
 			// by the water (boat deck, pier, the wet beach, wading): suggest the rod
 			const byWater = p.mode === 'deck' || ( p.mode === 'walk' && [ 'wood', 'wetsand', 'water' ].includes( p.surface ) );
-			return byWater ? { key: 'R', text: 'Take out the rod' } : null;
+			return byWater ? { key: 'R', text: t('Take_out_the_rod') } : null;
 
 		}
 
 		const b = this.bite;
 		switch ( rod.state ) {
 
-			case 'idle': return { key: 'LMB', text: 'Hold to wind up, release to cast   ·   R  put the rod away' };
-			case 'windup': return { key: 'LMB', text: 'Release to cast (hold longer to cast farther)' };
+			case 'idle': return { key: 'LMB', text: t('HoldToWindUp') };
+			case 'windup': return { key: 'LMB', text: t('ReleaseToCast') };
 			case 'flying': return null;
 			case 'floating':
-				if ( b && b.phase === 'take' ) return { key: 'LMB', text: 'Strike now!' };
-				if ( b && b.phase === 'nibble' ) return { key: '…', text: 'Something\'s nibbling · wait until the bobber is pulled under' };
-				return { key: 'RMB', text: 'Waiting for a bite · right-click to reel the line in' };
-			case 'retrieving': return { key: 'RMB', text: 'Reeling in' };
+				if ( b && b.phase === 'take' ) return { key: 'LMB', text: t('StrikeNow') };
+				if ( b && b.phase === 'nibble' ) return { key: '…', text: t('SomethingsNibbling') };
+				return { key: 'RMB', text: t('WaitingForABite') };
+			case 'retrieving': return { key: 'RMB', text: t('ReelingIn') };
 			case 'fighting': return this.fight && this.fight.tension > this.fight.band[ 1 ]
-				? { key: 'LMB', text: 'Too much tension · let go!' }
-				: { key: 'LMB', text: 'Hold to reel · let go when the tension goes red' };
+				? { key: 'LMB', text: t('TooMuchTension') }
+				: { key: 'LMB', text: t('HoldToReel') };
 			case 'landing': return null;
 			default: return null;
 
@@ -351,7 +351,7 @@ export class Game {
 		}
 
 	}
-
+	//region更新弹出交互
 	updateVendors( inp, p ) {
 
 		const hud = this.hud;
@@ -360,7 +360,7 @@ export class Game {
 		for ( const v of this.vendors ) v.talking = !! ( hud && hud.standOpen && hud.vendor === v );
 		if ( hud && hud.standOpen && ( ! near || near !== hud.vendor ) ) hud.closeStand();
 		if ( ! near || this.fight || this._cardDismissed || ( hud && hud.catchOpen ) ) return;
-		if ( ! p.prompt ) p.prompt = { key: 'E', text: hud && hud.standOpen ? 'Leave' : `Talk to ${ near.name.split( ' ·' )[ 0 ] }` };
+		if ( ! p.prompt ) p.prompt = { key: 'E', text: hud && hud.standOpen ? t('Leave_E') : t(`Talk_to`)+` ${ near.name.split( ' ·' )[ 0 ] }` };
 		if ( inp.hit( 'KeyE' ) ) {
 
 			if ( ! hud ) {

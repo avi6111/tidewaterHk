@@ -679,7 +679,7 @@ export class Player {
 
 		if ( nearHelm ) {
 
-			this.prompt = { key: 'E', text: 'Take the helm' };
+			this.prompt = { key: 'E', text: t('Take_the_helm') };
 			if ( inp.hit( 'KeyE' ) ) {
 
 				this.takeHelm();
@@ -694,7 +694,7 @@ export class Player {
 			const atRail = b.model.exitPoints.some( ( e ) => Math.hypot( p.x - e.x, p.z - e.z ) < 1.3 );
 			if ( ep && Math.hypot( p.x - ep.x, p.z - ep.z ) < 1.3 ) {
 
-				this.prompt = { key: 'E', text: 'Step ashore' };
+				this.prompt = { key: 'E', text: t('Step_ashore') };
 				if ( inp.hit( 'KeyE' ) ) {
 
 					this.exitBoat( this._ashore );
@@ -704,7 +704,7 @@ export class Player {
 
 			} else if ( atRail ) {
 
-				this.prompt = { key: 'E', text: 'Jump overboard' };
+				this.prompt = { key: 'E', text: t('Jump_overboard') };
 				if ( inp.hit( 'KeyE' ) ) {
 
 					this.exitBoat( null, Math.sign( p.x ) || 1 );
@@ -747,7 +747,7 @@ export class Player {
 		if ( inp.down( 'KeyA' ) ) steer += 1;
 		if ( inp.down( 'KeyD' ) ) steer -= 1;
 		b.setInput( throttle, steer, dt );
-		this.prompt = { key: 'E', text: 'Leave helm   ·   V  camera' };
+		this.prompt = { key: 'E', text: t('Leave_helm')+'   ·   V  camera' };
 
 		// keep the player attached (for audio / queries)
 		b.toWorld( b.model.helmEye, this.position );

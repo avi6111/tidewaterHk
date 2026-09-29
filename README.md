@@ -1,6 +1,25 @@
 # 更新Reame会更么
 
-改中文
+1. 古法编程：添加【中文版】【潜水版】
+2. 基本设置在：AppUI.js (UI.js更多是底层 showLayout,Prompt 等)； 增加【默认设置】在：`App.constructor`, i18nlanguage(),日夜更替`timeSpeed`=0.71 等
+3. 增加【钓鱼】操作丰富度
+4. 国情原因，“禁止”【炸鱼】
+5. 美国小哥原来的这个项目已经有一个吊炸天的Mod, 飞行模式（快捷键 F），新手可能不习惯，但是能解决卡死问题，自带穿墙和加速
+
+
+
+**试玩链接:** [avi6111.github.io/tidewaterH](https://avi6111.github.io/tidewaterHk/)
+
+试玩操作方式：
+
+| Key        | Desc          |
+| ---------- | ------------- |
+| Shift      | 加速          |
+| Space-空格 | 跳跃          |
+| Tab        | 仓库          |
+| F          | 飞行模式+加速 |
+| AWSD       | 前后左右移动  |
+| 鼠标       | 转视角        |
 
 # Tidewater
 
@@ -9,7 +28,7 @@ sell your catch to Joe at the fish stand, and spend it on better gear at Marta's
 real-time tropical island and ocean: swim the reef, drive the boat out to deep water, and watch a humpback
 breach. It runs directly on WebGPU and WGSL with its own small rendering engine, no framework.
 
-**Play it:** https://dgreenheck.github.io/tidewater/
+**Play it:** [avi6111.github.io/tidewaterHk](https://avi6111.github.io/tidewaterHk/)
 
 ![Fishing off the pier at golden hour](docs/screenshot.jpg)
 

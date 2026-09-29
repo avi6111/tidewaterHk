@@ -4,8 +4,10 @@ import * as THREE from '../engine/index.js';
 // The open ocean lies to the south (+z); the island to the north (-z).
 // Sun rises in the east (+x) and sets in the west (-x).
 export const WORLD = {
-	terrainSize: 2048, // heightmap domain, centered at origin
-	terrainRes: 2048,
+	// terrainSize: 2048, // heightmap domain, centered at origin
+	// terrainRes: 2048,
+	terrainSize: 512, // heightmap domain, centered at origi	
+	terrainRes:512,
 
 	// Central sandy beach inside the bay, shoreline near z ≈ -42 at x = 0.
 	beach: { xMin: - 150, xMax: 170 },

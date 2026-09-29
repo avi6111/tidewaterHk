@@ -12,7 +12,7 @@
 import '../src/ui/ui.css';
 import { GameHUD } from '../src/game/GameHUD.js';
 import { GameState } from '../src/game/GameState.js';
-
+import {t} from '/src/i18n/i18n.js';
 const view = new URLSearchParams( location.search ).get( 'view' ) || 'fight';
 const root = document.createElement( 'div' );
 root.className = 'tw-root';
@@ -35,8 +35,8 @@ const h = new GameHUD( ui, game );
 const fight = { tension: 0.62, band: [ 0.35, 0.8 ], stamina: 0.55, distance: 11.4, surge: 0.1 };
 h.update( { fuel: { litres: 23, tank: 40 }, sonar: { depth: 12.4, fish: 0.5 }, fight: view === 'fight' ? fight : null, casting: view === 'cast', power: 0.7, bite: view === 'bite', aiming: true } );
 if ( view === 'inv' ) h.toggleInventory( true );
-if ( view === 'shop' ) { state.buy( 'reel' ); h.openStand( { kind: 'shop', name: 'Marta · Chandlery', greeting: 'Line, reels, a bigger hold, diesel. What do you need?' } ); }
-if ( view === 'stand' ) h.openStand( { name: 'Joe · Fish buyer', greeting: 'Let\'s see what you caught. Fair prices, cash.' } );
+if ( view === 'shop' ) { state.buy( 'reel' ); h.openStand( { kind: 'shop', name: 'Marta · '+t('Chandlery'), greeting: t('Line_reels_a_bigger_hold') } ); }
+if ( view === 'stand' ) h.openStand( { name: 'Joe · '+t('Fish_buyer'), greeting: t('Let_s_see_what') } );
 if ( view === 'fight' ) ui.toast( 'Fish on!' );
 if ( [ 'catch', 'record', 'newspecies', 'full' ].includes( view ) ) {
 
@@ -44,7 +44,7 @@ if ( [ 'catch', 'record', 'newspecies', 'full' ].includes( view ) ) {
 	document.body.style.background = 'radial-gradient(40% 50% at 62% 50%, #3d6f7a 0%, transparent 70%), linear-gradient(180deg, #6fa7d6 0%, #9cc9e8 45%, #1f8fa3 46%, #0c5f77 100%)';
 	if ( view === 'catch' ) state.addFish( 'yellowtail', 0.92, 9 );
 	if ( view === 'record' ) state.addFish( 'jack', 6.35, 9 );
-	if ( view === 'newspecies' ) state.addFish( 'mahi', 11.4, 12 );
+	if ( view === 'newspecies' ) state.addFish( 'mahi', 11.4, 12 );//可能这是渔具店。。。。
 	if ( view === 'full' ) { state.addFish( 'grouper', 12, 9 ); state.addFish( 'tarpon', 38.5, 22 ); }
 	h.showCatch( state.lastCatch );
 

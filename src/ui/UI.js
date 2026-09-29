@@ -1,5 +1,5 @@
 import { icon, brandMark } from './icons.js';
-
+import { t } from '../i18n/i18n.js';
 // Tidewater UI: settings panel (tabs → folders → controls), HUD, help,
 // photo mode, start overlay and loader. Plain DOM, no dependencies.
 // All styling lives in ui.css (class prefix `tw-`).
@@ -1313,7 +1313,7 @@ function todSVG( id ) {
 	const labels = [ [ '06', cx - rx, cy + 13 ], [ '12', cx, cy - up - 7 ], [ '18', cx + rx, cy + 13 ], [ '00', cx, cy + down + 11 ] ]
 		.map( ( [ t, x, y ] ) => `<text x="${ x }" y="${ y }">${ t }</text>` ).join( '' );
 
-	return `<svg class="tw-tod-svg" viewBox="0 0 ${ w } ${ h }" role="slider" tabindex="0" aria-label="Time of day" aria-valuemin="0" aria-valuemax="24">
+	return `<svg class="tw-tod-svg" viewBox="0 0 ${ w } ${ h }" role="slider" tabindex="0" aria-label="${ t('Time_of_day') }" aria-valuemin="0" aria-valuemax="24">
 		<defs>
 			<linearGradient id="${ id }-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c74c6"/><stop offset="1" stop-color="#c2e4f6"/></linearGradient>
 			<linearGradient id="${ id }-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2a3a"/><stop offset="1" stop-color="#03101a"/></linearGradient>
@@ -1360,7 +1360,7 @@ class TimeOfDayControl extends Control {
 
 	constructor( parent, o ) {
 
-		super( parent, Object.assign( {}, o, { label: o.label ?? 'Time of day' } ), 'time' );
+		super( parent, Object.assign( {}, o, { label: o.label ?? t('Time_of_day') } ), 'time' );
 		this._default = Number( this.value ) || 0;
 		this.onFinishChange = o.onFinishChange || null;
 		const id = uid( 'tw-tod' );
@@ -2076,9 +2076,9 @@ export class UI {
 
 		};
 
-		action( 'viewfinder', 'Photo mode (P)', () => this.setPhotoMode( true ) );
-		action( 'help', 'Controls (F1)', () => this.toggleHelp() );
-		action( 'chevrons-right', 'Collapse (H)', () => this.togglePanel( false ) );
+		action( 'viewfinder', t('Photo mode')+' (P)', () => this.setPhotoMode( true ) );
+		action( 'help', t('Controls')+' (F1)', () => this.toggleHelp() );
+		action( 'chevrons-right', t('Collapse')+' (H)', () => this.togglePanel( false ) );
 		head.append( actions );
 
 		this.tabBar = h( 'div', 'tw-tabs', { role: 'tablist', 'aria-label': 'Settings sections' } );
@@ -2132,7 +2132,7 @@ export class UI {
 				<header class="tw-help-head">
 					<div>
 						<h2 id="tw-help-title">Controls</h2>
-						<p>Click the view to capture the mouse. Esc releases it.</p>
+						<p data-i18n="ClickToCaptureMouse">Click the view to capture the mouse. Esc releases it.</p>
 					</div>
 					<button type="button" class="tw-icon-btn tw-help-close" aria-label="Close" data-tip="Close (F1)">${ icon( 'close' ) }</button>
 				</header>
@@ -2141,33 +2141,33 @@ export class UI {
 						<h3>Move</h3>
 						${ row( wasd, 'Move' ) }
 						${ row( mouse, 'Look around<small>Click to capture</small>' ) }
-						${ row( k( 'Shift' ), 'Sprint, boat boost' ) }
-						${ row( k( 'Space' ), 'Jump, swim up' ) }
-						${ row( k( 'C' ), 'Crouch, dive' ) }
+						${ row( k( 'Shift' ), t( 'HelpSprint' ) ) }
+						${ row( k( 'Space' ), t( 'HelpJump') ) }
+						${ row( k( 'C' ), t( 'HelpCrouchDive' ) ) }
 					</section>
 					<section>
 						<h3>Interact</h3>
-						${ row( k( 'E' ), 'Interact<small>Board, helm, step ashore, trade</small>' ) }
-						${ row( k( 'V' ), 'Boat camera<small>1st / 3rd person</small>' ) }
-						${ row( k( 'R' ), 'Fishing rod<small>Take out / put away</small>' ) }
-						${ row( k( 'LMB' ), 'Cast, strike, reel<small>Hold to wind up / reel</small>' ) }
-						${ row( k( 'RMB' ), 'Reel in an empty line' ) }
-						${ row( k( 'I' ), 'Cooler and fish log' ) }
-						${ row( k( 'F' ), 'Free camera' ) }
-						${ row( k( 'T' ), 'Pause time' ) }
-						${ row( k( 'L' ), 'Flashlight' ) }
-						${ row( k( 'M' ), 'Mute' ) }
+						${ row( k( 'E' ), 'Interact<small data-i18n="HelpKeyEBoard">Board, helm, step ashore, trade</small>' ) }
+						${ row( k( 'V' ), t('HelpBoatCamera')+'<small>1st / 3rd person</small>' ) }
+						${ row( k( 'R' ), t('HelpFishingRod') ) }
+						${ row( k( 'LMB' ), t('HelpCastStrikeReel') ) }
+						${ row( k( 'RMB' ), t('HelpReelInAnEmptyLine') ) }
+						${ row( k( 'I' ), t('HelpIForCooler') ) }
+						${ row( k( 'F' ), t('Free_camera') ) }
+						${ row( k( 'T' ), t('Pause_time' ) )}
+						${ row( k( 'L' ), t('Flashlight' )) }
+						${ row( k( 'M' ), t('Mute') ) }
 					</section>
 					<section>
 						<h3>Interface</h3>
-						${ row( k( 'H' ), 'Settings panel' ) }
-						${ row( k( 'P' ), 'Photo mode<small>Hides all interface</small>' ) }
-						${ row( k( 'F1' ) + k( '?' ), 'This sheet' ) }
-						${ row( k( 'Esc' ), 'Release the mouse' ) }
+						${ row( k( 'H' ), t('Settings_panel' )) }
+						${ row( k( 'P' ), t('Photo_mode') ) }
+						${ row( k( 'F1' ) + k( '?' ), t('This_sheet') ) }
+						${ row( k( 'Esc' ), t('Release_the_mouse' ) )}
 					</section>
 				</div>
 				<div class="tw-help-guide">
-					<span><b>How to play:</b> catch fish, sell them to Joe at the fish stand by the pier, and buy upgrades from Marta at the chandlery by the boathouse. Both are on the map (lower right).</span>
+					<span data-i18n="How_to_pla"><b>How to play:</b> catch fish, sell them to Joe at the fish stand by the pier, and buy upgrades from Marta at the chandlery by the boathouse. Both are on the map (lower right).</span>
 					<button type="button" class="gm-btn is-ghost tw-help-replay">Replay the guide</button>
 				</div>
 			</div>`;
@@ -2189,13 +2189,13 @@ export class UI {
 			<div class="tw-start-inner">
 				${ brandMark( 'tw-start-mark' ) }
 				<div class="tw-start-title">TIDEWATER</div>
-				<button type="button" class="tw-start-cta"><span class="tw-start-pulse" aria-hidden="true"></span>${ icon( 'mouse' ) }<span>Click to explore</span></button>
+				<button type="button" class="tw-start-cta"><span class="tw-start-pulse" aria-hidden="true"></span>${ icon( 'mouse' ) }<span data-i18n="ClickToExplore">Click to explore</span></button>
 				<div class="tw-start-keys">
 					<span><span class="tw-wasd"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>Move</span>
 					<span><kbd class="tw-kbd-ico">${ icon( 'mouse' ) }</kbd>Look</span>
-					<span><kbd>E</kbd>Interact</span>
-					<span><kbd>H</kbd>Settings</span>
-					<span><kbd>F1</kbd>All controls</span>
+					<span><kbd>E</kbd><div data-i18n="PressEFunction">Interact</div></span>
+					<span><kbd>H</kbd><div data-i18n="SettingsFunction">Settings</div></span>
+					<span><kbd>F1</kbd><div data-i18n="AllControlsFunction">All controls</div></span>
 				</div>
 			</div>`;
 		this.root.append( el );
